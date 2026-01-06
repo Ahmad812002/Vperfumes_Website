@@ -30,6 +30,10 @@ import os
 mongo_url = os.environ.get("MON3GO_URL")
 db_name = os.environ.get("DB_NAME")
 
+if not mongo_url:
+    raise RuntimeError("MONGO_URL is not set")
+if not db_name:
+    raise RuntimeError("DB_NAME is not set")
 client = AsyncIOMotorClient(mongo_url)
 db = client[db_name]
 
