@@ -34,6 +34,11 @@ if not mongo_url:
     raise RuntimeError("MONGO_URL is not set")
 if not db_name:
     raise RuntimeError("DB_NAME is not set")
+
+print("ENV CHECK")
+print("MONGO_URL:", repr(os.environ.get("MONGO_URL")))
+print("DB_NAME:", repr(os.environ.get("DB_NAME")))
+
 client = AsyncIOMotorClient(mongo_url)
 db = client[db_name]
 
