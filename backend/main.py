@@ -27,7 +27,7 @@ load_dotenv(ROOT_DIR / '.env')
 
 import os
 
-mongo_url = os.environ.get("MON3GO_URL")
+mongo_url = os.environ.get("MONGO_URL")
 db_name = os.environ.get("DB_NAME")
 
 print("ENV CHECK")
