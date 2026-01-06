@@ -1,0 +1,14 @@
+# Build settings for Netlify
+[build]
+# The folder to run commands in
+base = "frontend"
+# The command to build the site
+command = "npm run build"
+# The folder that gets published
+publish = "/build"
+
+# The redirect rule that fixes the "Not Found" error
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
