@@ -217,7 +217,7 @@ def create_access_token(data: dict) -> str:
 #         raise HTTPException(status_code=401, detail="Invalid token")
 
 
-async def get_current_user(access_token: str = Cookie(None)):
+async def get_current_user(access_token: str | None = Cookie(default=None, alias="access_token")):
     print("Cookie Received:", access_token)
     
     if not access_token:
