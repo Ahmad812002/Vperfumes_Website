@@ -1,5 +1,4 @@
 from fastapi import FastAPI, APIRouter, HTTPException, Depends, status, Query, WebSocket, Request
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -12,8 +11,6 @@ import uuid
 from datetime import datetime, timezone, timedelta, time
 from passlib.context import CryptContext
 import jwt
-from broadcaster import Broadcast
-import asyncio
 from fastapi import Response
 from fastapi import Cookie
 from fastapi.encoders import jsonable_encoder
