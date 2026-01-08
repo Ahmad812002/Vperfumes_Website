@@ -14,8 +14,8 @@ import {
 import { toast } from "sonner";
 import { ArrowRight, Trash2, Building2, KeyRound, Copy, Check } from "lucide-react";
 
-// const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const BACKEND_URL = "http://127.0.0.1:8000"
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+// const BACKEND_URL = "http://127.0.0.1:8000"
 const API = `${BACKEND_URL}/api`;
 
 // const getAuthHeader = () => ({

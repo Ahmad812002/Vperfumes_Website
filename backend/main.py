@@ -30,12 +30,14 @@ import os
 mongo_url = os.environ.get("MONGO_URL")
 db_name = os.environ.get("DB_NAME")
 
+print("ENV CHECK")
+print("MONGO_URL:", repr(os.environ.get("MONGO_URL")))
+print("DB_NAME:", repr(os.environ.get("DB_NAME")))
 
 if not mongo_url:
     raise RuntimeError("MONGO_URL is not set")
 if not db_name:
     raise RuntimeError("DB_NAME is not set")
-
 
 
 client = AsyncIOMotorClient(mongo_url)
@@ -89,12 +91,15 @@ app.include_router(ws_router)
 @app.get("/api")
 async def get_data():
 
+<<<<<<< HEAD
     if __name__ == '__main__':
             # Get the port number from the environment variable set by Render
             port = int(os.environ.get('PORT', 5000))
             # Run the app, listening on all available network interfaces
             app.run(host='0.0.0.0', port=port)
             return {"message": "Hello from the backend!"}
+=======
+>>>>>>> refs/remotes/origin/main
 
 
 print("Connecting to Mongo...")
