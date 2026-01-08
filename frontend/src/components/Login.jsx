@@ -17,8 +17,6 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   const { user, loading, login, logout } = useAuth();
-  console.log("API BASE:", import.meta.env.VITE_API_BASE_URL)
-  console.log("WS BASE:", import.meta.env.VITE_WS_BASE_URL)
 
 
   const handleSubmit = async (e) => {
