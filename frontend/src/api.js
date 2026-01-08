@@ -11,11 +11,7 @@ axios.defaults.withCredentials = true;
 // });
 
 const api = axios.create({
-<<<<<<< HEAD
   baseURL: process.env.REACT_APP_API_BASE_URL,
-=======
-  baseURL: process.env.VITE_API_BASE_URL,
->>>>>>> refs/remotes/origin/main
   withCredentials: true, // set once
 });
 
