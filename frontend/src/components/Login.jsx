@@ -8,8 +8,7 @@ import api from "@/api"
 import { useAuth } from "@/AuthContext";
 
 // const BACKEND_URL = "http://127.0.0.1:8000";
-const BACKEND_URL = process.env.REACT_APP_WS_BASE_URL;
-const API = `${BACKEND_URL}/api`;
+const API = `${process.env.REACT_APP_WS_BASE_URL}`;
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -17,8 +16,6 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   const { user, loading, login, logout } = useAuth();
-  console.log("API BASE:", import.meta.env.VITE_API_BASE_URL)
-  console.log("WS BASE:", import.meta.env.VITE_WS_BASE_URL)
 
 
   const handleSubmit = async (e) => {

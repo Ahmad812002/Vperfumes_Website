@@ -37,9 +37,8 @@ import { useAuth } from "@/AuthContext";
 
 // const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 // const BACKEND_URL = "http://127.0.0.1:8000";
-const BACKEND_URL = process.env.REACT_APP_WS_BASE_URL;
-
-const API = `${BACKEND_URL}/api`;
+process.env.REACT_APP_WS_BASE_URL;
+const API = `${process.env.REACT_APP_WS_BASE_URL}`;
 /**after adding cookies i don't need for headers */
 // const getAuthHeader = () => ({
 //   headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },

@@ -27,23 +27,20 @@ load_dotenv(ROOT_DIR / '.env')
 
 import os
 
-mongo_url = os.environ.get("MON3GO_URL")
+mongo_url = os.environ.get("MONGO_URL")
 db_name = os.environ.get("DB_NAME")
+
 
 if not mongo_url:
     raise RuntimeError("MONGO_URL is not set")
 if not db_name:
     raise RuntimeError("DB_NAME is not set")
 
-print("ENV CHECK")
-print("MONGO_URL:", repr(os.environ.get("MONGO_URL")))
-print("DB_NAME:", repr(os.environ.get("DB_NAME")))
+
 
 client = AsyncIOMotorClient(mongo_url)
 db = client[db_name]
 
-print("MONGO_URL:", mongo_url)
-print("DB_NAME:", db_name)
 
 
 # JWT + Security
@@ -87,20 +84,17 @@ async def ws_orders(websocket: WebSocket, company_id: str):
             del company_clients[company_id]
         
         
-
 app.include_router(ws_router)
-
 
 @app.get("/api")
 async def get_data():
-    return {"message": "Hello from the backend!"}
 
     if __name__ == '__main__':
             # Get the port number from the environment variable set by Render
             port = int(os.environ.get('PORT', 5000))
             # Run the app, listening on all available network interfaces
             app.run(host='0.0.0.0', port=port)
-
+            return {"message": "Hello from the backend!"}
 
 
 print("Connecting to Mongo...")

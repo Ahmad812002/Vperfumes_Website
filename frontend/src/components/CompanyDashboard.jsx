@@ -32,13 +32,10 @@ import {
 } from "lucide-react";
 import api from "@/api";
 import { useAuth } from "@/AuthContext";
-import { fromTheme } from "tailwind-merge";
-import VITE_WS_BASE_URL from "../"
 
 // const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-// const BACKEND_URL = "http://127.0.0.1:8000";
-const BACKEND_URL = process.env.REACT_APP_API_BASE_URL;
-const API = `${BACKEND_URL}/api`;
+const BACKEND_URL = "http://127.0.0.1:8000";
+const API = `${process.env.REACT_APP_API_BASE_URL}`;
 // const WS_BASE = "ws://127.0.0.1:8000";
 const WS_BASE = process.env.REACT_APP_WS_BASE_URL;
 
