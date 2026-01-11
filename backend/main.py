@@ -61,7 +61,7 @@ ws_router = APIRouter()
 
 
 company_clients: dict[str, list[WebSocket]] = {}
-@ws_router.websocket("/ws/orders/{company_id}")
+@ws_router.websocket("/orders/{company_id}")
 async def ws_orders(websocket: WebSocket, company_id: str):
     
     print("WS attempt for:", company_id)
