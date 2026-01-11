@@ -84,8 +84,8 @@ export default function AdminDashboard({
     company_name: "",
     company_id: ""
   });
-  
   const { user, loading, logout } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     
@@ -100,6 +100,18 @@ export default function AdminDashboard({
     fetchOrders();
     fetchStats();
 
+    const handleResize = () => {
+    if (window.innerWidth >= 768) {
+      setMobileMenuOpen(false)
+    }
+
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }
+
+  window.addEventListener("resize", handleResize)
+  return () => window.removeEventListener("resize", handleResize)
+
   }, [user, loading]);
 
   const fetchOrders = async () => {
@@ -113,7 +125,7 @@ export default function AdminDashboard({
     } catch (error) {
       toast.error("فشل في تحميل الطلبات");
     }
-  };
+  }
 
   const fetchStats = async () => {
     try {
@@ -272,18 +284,18 @@ const resetForm = () => {
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-lg shadow-md border-b border-amber-200/50 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between gap-3">
             <div>
               <h1
-                className="text-3xl font-bold text-purple-900"
+                className="text-xl md:text-3xl font-bold text-purple-900"
                 style={{ fontFamily: "Playfair Display, serif" }}
               >
                 VPerfumes
               </h1>
-              <p className="text-sm text-gray-600 mt-1">لوحة التحكم - المدير</p>
+              <p className="text-xs md:text-sm text-gray-600 mt-0.5 md:mt-1">لوحة التحكم - المدير</p>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="text-right">
+            <div className="hidden md:flex items-center gap-3">
+              <div className="hidden md:block text-right">
                 <p className="font-semibold text-gray-800">{user.username}</p>
                 <p className="text-xs text-gray-500">مدير النظام</p>
               </div>
@@ -327,9 +339,66 @@ const resetForm = () => {
                 خروج
               </Button>
             </div>
+
+            <div className="md:hidden">
+  <Button
+    variant="outline"
+    className="border-purple-200"
+    onClick={() => setMobileMenuOpen(prev => !prev)}
+  >
+    ☰
+  </Button>
+</div>
           </div>
         </div>
       </header>
+
+      {mobileMenuOpen && (
+  <div className="md:hidden bg-white border-t shadow-sm">
+    <div className="flex flex-col gap-3 p-4">
+      <Button
+                onClick={() => setShowReportModal(true)}
+                data-testid="report-button"
+                variant="outline"
+                className="flex items-center gap-2 border-2 border-purple-200 hover:bg-purple-50"
+                id="report_btn"
+              >
+                {" "}
+                <TbReportSearch />
+                تقرير
+              </Button>
+              <Button
+                onClick={onManageCompanies}
+                data-testid="manage-companies-button"
+                variant="outline"
+                className="flex items-center gap-2 border-2 border-purple-200 hover:bg-purple-50"
+              >
+                <Users className="w-4 h-4" />
+                إدارة الشركات
+              </Button>
+              <Button
+                onClick={onSettings}
+                data-testid="settings-button"
+                variant="outline"
+                className="flex items-center gap-2 border-2 border-purple-200 hover:bg-purple-50"
+              >
+                <Settings className="w-4 h-4" />
+                الإعدادات
+              </Button>
+              <Button
+                onClick={logout}
+                data-testid="logout-button"
+                variant="outline"
+                className="flex items-center gap-2 border-2 border-purple-200 hover:bg-purple-50"
+              >
+                <LogOut className="w-4 h-4" />
+                خروج
+              </Button>
+    </div>
+  </div>
+)}
+
+
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Cards */}
