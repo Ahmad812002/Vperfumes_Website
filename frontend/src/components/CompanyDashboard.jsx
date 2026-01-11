@@ -82,7 +82,6 @@ export default function CompanyDashboard({ onSettings }) {
 
     fetchOrders();
     fetchStats();
-    
 
     ws = new WebSocket(`${WS_BASE}/ws/orders/${user.id}`);
     wsRef.current = ws;
@@ -94,7 +93,7 @@ export default function CompanyDashboard({ onSettings }) {
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
       if (data.type === "new_order") {
-        toast.warning("هنالك طلب جديد")
+        toast.warning("هنالك طلب جديد");
         setOrders((prev) => [data.order, ...prev]);
       }
     };
@@ -108,24 +107,22 @@ export default function CompanyDashboard({ onSettings }) {
     };
 
     const handleResize = () => {
-    if (window.innerWidth >= 768) {
-      setMobileMenuOpen(false)
-    }
+      if (window.innerWidth >= 768) {
+        setMobileMenuOpen(false);
+      }
 
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }
-  window.addEventListener("resize", handleResize)
-
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    };
+    window.addEventListener("resize", handleResize);
 
     return () => {
       if (wsRef.current) {
         wsRef.current.close();
         wsRef.current = null;
       }
-      window.removeEventListener("resize", handleResize)
+      window.removeEventListener("resize", handleResize);
     };
-    
   }, [user, logout]);
 
   const fetchOrders = async () => {
@@ -251,7 +248,7 @@ export default function CompanyDashboard({ onSettings }) {
       notes: "",
     });
   };
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const filteredOrders = orders.filter((order) => {
     const matchStatus = filterStatus === "all" || order.status === filterStatus;
@@ -357,7 +354,7 @@ export default function CompanyDashboard({ onSettings }) {
               <Button
                 variant="outline"
                 className="border-purple-200"
-                onClick={() => setMobileMenuOpen(prev => !prev)}
+                onClick={() => setMobileMenuOpen((prev) => !prev)}
               >
                 ☰
               </Button>
@@ -367,29 +364,29 @@ export default function CompanyDashboard({ onSettings }) {
       </header>
 
       {mobileMenuOpen && (
-  <div className="md:hidden bg-white border-t shadow-sm">
-    <div className="flex flex-col gap-2 p-4">
-      <Button
-                onClick={onSettings}
-                data-testid="settings-button"
-                variant="outline"
-                className="flex items-center gap-2 border-2 border-purple-200 hover:bg-purple-50"
-              >
-                <Settings className="w-4 h-4" />
-                الإعدادات
-              </Button>
-              <Button
-                onClick={logout}
-                data-testid="logout-button"
-                variant="outline"
-                className="flex items-center gap-2 border-2 border-purple-200 hover:bg-purple-50"
-              >
-                <LogOut className="w-4 h-4" />
-                خروج
-              </Button>
-    </div>
-  </div>
-)}
+        <div className="md:hidden bg-white border-t shadow-sm">
+          <div className="flex flex-col gap-2 p-4">
+            <Button
+              onClick={onSettings}
+              data-testid="settings-button"
+              variant="outline"
+              className="flex items-center gap-2 border-2 border-purple-200 hover:bg-purple-50"
+            >
+              <Settings className="w-4 h-4" />
+              الإعدادات
+            </Button>
+            <Button
+              onClick={logout}
+              data-testid="logout-button"
+              variant="outline"
+              className="flex items-center gap-2 border-2 border-purple-200 hover:bg-purple-50"
+            >
+              <LogOut className="w-4 h-4" />
+              خروج
+            </Button>
+          </div>
+        </div>
+      )}
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Cards */}

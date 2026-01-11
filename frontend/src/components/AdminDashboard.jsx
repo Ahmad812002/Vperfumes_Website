@@ -32,7 +32,7 @@ import {
 } from "lucide-react";
 import { ReportDateModal } from "@/components/ReportDateModal";
 import { Textarea } from "@/components/ui/textarea";
-import api from "@/api"
+import api from "@/api";
 import { useAuth } from "@/AuthContext";
 
 // const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -70,7 +70,7 @@ export default function AdminDashboard({
     password: "",
     company_name: "",
   });
-  const [addDialogOpen, setAddDialogOpen] = useState(false); 
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [formData, setFormData] = useState({
     order_number: "",
     customer_name: "",
@@ -82,36 +82,34 @@ export default function AdminDashboard({
     order_date: new Date().toISOString().split("T")[0],
     notes: "",
     company_name: "",
-    company_id: ""
+    company_id: "",
   });
   const { user, loading, logout } = useAuth();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    
-    if(loading) return;
-    if(!user) return;
+    if (loading) return;
+    if (!user) return;
 
     if (user.role !== "admin") {
       logout();
       return;
-    };
+    }
 
     fetchOrders();
     fetchStats();
 
     const handleResize = () => {
-    if (window.innerWidth >= 768) {
-      setMobileMenuOpen(false)
-    }
+      if (window.innerWidth >= 768) {
+        setMobileMenuOpen(false);
+      }
 
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    };
 
-  window.addEventListener("resize", handleResize)
-  return () => window.removeEventListener("resize", handleResize)
-
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [user, loading]);
 
   const fetchOrders = async () => {
@@ -125,11 +123,11 @@ export default function AdminDashboard({
     } catch (error) {
       toast.error("فشل في تحميل الطلبات");
     }
-  }
+  };
 
   const fetchStats = async () => {
     try {
-      const response = await api.get(`/stats`,  { withCredentials: true });
+      const response = await api.get(`/stats`, { withCredentials: true });
       setStats(response.data);
     } catch (error) {
       console.error("Failed to fetch stats", error);
@@ -138,7 +136,9 @@ export default function AdminDashboard({
 
   const fetchOrderHistory = async (orderId) => {
     try {
-      const response = await api.get(`/orders/${orderId}/history`,  { withCredentials: true });
+      const response = await api.get(`/orders/${orderId}/history`, {
+        withCredentials: true,
+      });
       setSelectedOrderHistory(response.data);
       setHistoryOpen(true);
     } catch (error) {
@@ -151,7 +151,7 @@ export default function AdminDashboard({
     try {
       if (newCompany.password.length < 6) {
         toast.error("كلمة المرور يجب ان لا تقل عن ستة احرف او ارقام");
-        return
+        return;
       }
       await api.post(
         `/auth/register`,
@@ -159,7 +159,7 @@ export default function AdminDashboard({
           ...newCompany,
           role: "company",
         },
-        {withCredentials: true}
+        { withCredentials: true }
       );
       toast.success("تم إنشاء حساب الشركة بنجاح");
       setCreateCompanyOpen(false);
@@ -173,13 +173,10 @@ export default function AdminDashboard({
   const filteredOrders = orders.filter((order) => {
     const matchStatus = filterStatus === "all" || order.status === filterStatus;
 
-
     const search = searchQuery.toLowerCase().trim();
-    var orderDateStr = new Date(order.order_date)
-      .toISOString()
-      .split("T")[0];
+    var orderDateStr = new Date(order.order_date).toISOString().split("T")[0];
 
-    orderDateStr = reverseDate(orderDateStr)
+    orderDateStr = reverseDate(orderDateStr);
 
     const matchSearch =
       searchQuery === "" ||
@@ -187,12 +184,12 @@ export default function AdminDashboard({
       order.customer_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       order.customer_phone.includes(searchQuery) ||
       order.delivery_area.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (orderDateStr.includes(search))
+      orderDateStr.includes(search);
 
     return matchStatus && matchSearch;
   });
 
-  function reverseDate (dateInput) {
+  function reverseDate(dateInput) {
     let array = dateInput.split("-");
     let reversedDate = `${array[2]}-${array[1]}-${array[0]}`;
     return reversedDate;
@@ -223,7 +220,7 @@ export default function AdminDashboard({
       </span>
     );
   };
-const resetForm = () => {
+  const resetForm = () => {
     setFormData({
       order_number: "",
       customer_name: "",
@@ -235,13 +232,12 @@ const resetForm = () => {
       order_date: new Date().toISOString().split("T")[0],
       notes: "",
       company_name: "",
-      company_id: ""
+      company_id: "",
     });
-};
+  };
 
   const handleAddOrderToCompany = async (e) => {
-
-    try{
+    try {
       e.preventDefault();
       // axios.post(`${API}/orders`,
       //   {
@@ -252,24 +248,24 @@ const resetForm = () => {
       //   getAuthHeader(),
       // )
 
-      await api.post(`/orders`,
+      await api.post(
+        `/orders`,
         {
           ...formData,
           order_price: parseFloat(formData.order_price),
           delivery_cost: parseFloat(formData.delivery_cost),
         },
         { withCredentials: true }
-      )
+      );
       toast.success("تم إضافة الطلب بنجاح");
       setAddDialogOpen(false);
       resetForm();
       await fetchOrders();
       await fetchStats();
-    }catch (err) {
-      toast.error("خطأ أثناء الإضافة")
+    } catch (err) {
+      toast.error("خطأ أثناء الإضافة");
     }
-    
-  }
+  };
 
   if (loading) {
     return (
@@ -292,7 +288,9 @@ const resetForm = () => {
               >
                 VPerfumes
               </h1>
-              <p className="text-xs md:text-sm text-gray-600 mt-0.5 md:mt-1">لوحة التحكم - المدير</p>
+              <p className="text-xs md:text-sm text-gray-600 mt-0.5 md:mt-1">
+                لوحة التحكم - المدير
+              </p>
             </div>
             <div className="hidden md:flex items-center gap-3">
               <div className="hidden md:block text-right">
@@ -341,64 +339,62 @@ const resetForm = () => {
             </div>
 
             <div className="md:hidden">
-  <Button
-    variant="outline"
-    className="border-purple-200"
-    onClick={() => setMobileMenuOpen(prev => !prev)}
-  >
-    ☰
-  </Button>
-</div>
+              <Button
+                variant="outline"
+                className="border-purple-200"
+                onClick={() => setMobileMenuOpen((prev) => !prev)}
+              >
+                ☰
+              </Button>
+            </div>
           </div>
         </div>
       </header>
 
       {mobileMenuOpen && (
-  <div className="md:hidden bg-white border-t shadow-sm">
-    <div className="flex flex-col gap-3 p-4">
-      <Button
-                onClick={() => setShowReportModal(true)}
-                data-testid="report-button"
-                variant="outline"
-                className="flex items-center gap-2 border-2 border-purple-200 hover:bg-purple-50"
-                id="report_btn"
-              >
-                {" "}
-                <TbReportSearch />
-                تقرير
-              </Button>
-              <Button
-                onClick={onManageCompanies}
-                data-testid="manage-companies-button"
-                variant="outline"
-                className="flex items-center gap-2 border-2 border-purple-200 hover:bg-purple-50"
-              >
-                <Users className="w-4 h-4" />
-                إدارة الشركات
-              </Button>
-              <Button
-                onClick={onSettings}
-                data-testid="settings-button"
-                variant="outline"
-                className="flex items-center gap-2 border-2 border-purple-200 hover:bg-purple-50"
-              >
-                <Settings className="w-4 h-4" />
-                الإعدادات
-              </Button>
-              <Button
-                onClick={logout}
-                data-testid="logout-button"
-                variant="outline"
-                className="flex items-center gap-2 border-2 border-purple-200 hover:bg-purple-50"
-              >
-                <LogOut className="w-4 h-4" />
-                خروج
-              </Button>
-    </div>
-  </div>
-)}
-
-
+        <div className="md:hidden bg-white border-t shadow-sm">
+          <div className="flex flex-col gap-3 p-4">
+            <Button
+              onClick={() => setShowReportModal(true)}
+              data-testid="report-button"
+              variant="outline"
+              className="flex items-center gap-2 border-2 border-purple-200 hover:bg-purple-50"
+              id="report_btn"
+            >
+              {" "}
+              <TbReportSearch />
+              تقرير
+            </Button>
+            <Button
+              onClick={onManageCompanies}
+              data-testid="manage-companies-button"
+              variant="outline"
+              className="flex items-center gap-2 border-2 border-purple-200 hover:bg-purple-50"
+            >
+              <Users className="w-4 h-4" />
+              إدارة الشركات
+            </Button>
+            <Button
+              onClick={onSettings}
+              data-testid="settings-button"
+              variant="outline"
+              className="flex items-center gap-2 border-2 border-purple-200 hover:bg-purple-50"
+            >
+              <Settings className="w-4 h-4" />
+              الإعدادات
+            </Button>
+            <Button
+              onClick={logout}
+              data-testid="logout-button"
+              variant="outline"
+              className="flex items-center gap-2 border-2 border-purple-200 hover:bg-purple-50"
+            >
+              <LogOut className="w-4 h-4" />
+              خروج
+            </Button>
+          </div>
+        </div>
+      )}
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Cards */}
@@ -600,7 +596,10 @@ const resetForm = () => {
                     إضافة طلب جديد
                   </DialogTitle>
                 </DialogHeader>
-                <form onSubmit={handleAddOrderToCompany} className="space-y-4 mt-4">
+                <form
+                  onSubmit={handleAddOrderToCompany}
+                  className="space-y-4 mt-4"
+                >
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Label>رقم الطلب *</Label>
@@ -635,19 +634,19 @@ const resetForm = () => {
                     </div>
                   </div>
                   <div>
-                      <Label>اسم الشركة *</Label>
-                      <Input
-                        data-testid="company-name-input"
-                        required
-                        value={formData.company_name}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            company_name: e.target.value,
-                          })
-                        }
-                        className="mt-1"
-                      />
+                    <Label>اسم الشركة *</Label>
+                    <Input
+                      data-testid="company-name-input"
+                      required
+                      value={formData.company_name}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          company_name: e.target.value,
+                        })
+                      }
+                      className="mt-1"
+                    />
                   </div>
                   <div>
                     <Label>اسم الزبون *</Label>
